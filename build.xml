@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="DirReader" basedir="." default="run.jar">
+	<property name="src.dir"  value="src" />
+	<property name="bin.dir"  value="classes" />
+	<property name="jar.dir"  value="jar" />
+	<property name="res.dir"  value="res" />
+	<property name="project"  value="dirreader" />
+
+	<target name="clean" unless="src.uptodate">
+		<delete includeEmptyDirs="true" quiet="true" 
+			failonerror="false">
+			<fileset dir="${bin.dir}" />
+			<fileset dir="${jar.dir}" />			
+		</delete>
+	</target>
+		
+	<target name="init" depends="clean" unless="src.uptodate">
+		<mkdir dir="${bin.dir}" />
+		<mkdir dir="${jar.dir}" />
+	</target>
+	
+	<target name="compile" depends="init" unless="src.uptodate">
+		<javac srcdir="${src.dir}" destdir="${bin.dir}"
+			classpath="${res.dir}/swt.jar" />		
+	</target>
+
+	<target name="jar" depends="compile" unless="jar.exists">
+		<unjar src="${res.dir}/swt.jar" 
+			dest="${bin.dir}" overwrite="true" />
+		<delete dir="${bin.dir}/META-INF" failonerror="no" />
+		<delete file="${bin.dir}/version.txt" failonerror="no" />
+		<jar destfile="${jar.dir}/${project}.jar"
+			basedir="${bin.dir}"
+			includes="**/*.*">
+			<manifest>
+				<attribute name="Main-Class" value="dirreader.DRMain"/>
+			</manifest>			
+		</jar>
+		<delete dir="${bin.dir}/org" failonerror="no" />
+	</target>
+		
+	<available filepath="${jar.dir}" file="${project}.jar" 
+		property="jar.exist" />
+	
+	<target name="copy.dll" unless="dll.exists">
+		<copy todir="${jar.dir}" overwrite="true">
+			<fileset dir="${base.dir}" includes="*.dll" />
+		</copy>		
+	</target>
+	
+	<target name="run.jar">
+		<java jar="${jar.dir}/DirReader.jar" fork="true" />
+	</target>
+	
+	<target name="run">
+		<java classname="${project}.DRMain">
+			<classpath>
+				<pathelement location="${res.dir}/swt.jar"/>
+		        <pathelement path="${bin.dir}"/>
+			</classpath>
+<!--			<sysproperty key="java.library.path" value="." />-->			
+		</java>
+	</target>
+	
+<!--	<uptodate property="src.uptodate">
+		<srcfiles dir="${src.dir}" includes="*.java"/>
+		<mapper type="glob"	from="*.java"
+			to="${bin.dir}/**/*.class" />
+	</uptodate>-->
+	
+	<target name="ausgabe">
+		<echo>Update ist ${jar.exists}</echo>
+	</target>	
+	
+	<available property="jar.exists" filepath="${jar.dir}" file="${project}.jar" />	
+	
+	<available filepath="${basedir}/jar" file="swt-win32-3063.dll" property="dll.exists" />	
+</project>	

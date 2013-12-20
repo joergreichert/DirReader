@@ -1,0 +1,14 @@
+- Fortschrittsanzeige für Einlesevorgang
+  * Problem: Thread der vorgegebenen Methode unterbrechen
+- Einträge so wie in Explorer anordnen, bisher Ordnung
+  nach Verzeichnistiefe
+- Erkennen von doppelten Einträgen bei mehrfachen Einlesen
+- alternative Darstellung als Baumdiagramm
+- bessere Trennung von verfügbaren Listeneinträgen und 
+  dargestellten Listeneinträgen für bessere Änderbarkeit
+  der Darstellung, z.B. dynamisch Dateien in 
+  Unterverzeichnissen ein- und ausblenden ohne erneutes 
+  einlesen 
+- Dateitypfilter verbessern durch ggf Vorauswahl (Textfeld
+  und Combobox)
+
