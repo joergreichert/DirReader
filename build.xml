@@ -41,13 +41,7 @@
 		
 	<available filepath="${jar.dir}" file="${project}.jar" 
 		property="jar.exist" />
-	
-	<target name="copy.dll" unless="dll.exists">
-		<copy todir="${jar.dir}" overwrite="true">
-			<fileset dir="${base.dir}" includes="*.dll" />
-		</copy>		
-	</target>
-	
+		
 	<target name="run.jar">
 		<java jar="${jar.dir}/DirReader.jar" fork="true" />
 	</target>
@@ -73,6 +67,4 @@
 	</target>	
 	
 	<available property="jar.exists" filepath="${jar.dir}" file="${project}.jar" />	
-	
-	<available filepath="${basedir}/jar" file="swt-win32-3063.dll" property="dll.exists" />	
 </project>	
